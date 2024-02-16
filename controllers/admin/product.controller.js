@@ -34,11 +34,22 @@ module.exports.index = async (req,res)=>{
     }
     if(req.query.status)
         find.status=req.query.status
+    
+    let keyword = "";
+    if (req.query.keyword) {
+        keyword = req.query.keyword;
+        // Tìm kiếm chuỗi theo regex
+        const regex=new RegExp(keyword,"i")
+        find.title = regex;
+    }
 
     const products = await Product.find(find);
     res.render("admin/pages/product/index",
-        {pageTitle : "Trang danh sách sản phẩm",
-        products: products,
-        filterStatus:filterStatus}
+        {
+            pageTitle : "Trang danh sách sản phẩm",
+            products: products,
+            filterStatus:filterStatus,
+            keyword:keyword
+        }
     )
 }
