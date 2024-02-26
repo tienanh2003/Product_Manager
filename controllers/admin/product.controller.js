@@ -27,19 +27,6 @@ module.exports.index = async (req,res)=>{
         limitItems: 4
     },req.query,countProducts)
 
-
-    // if (req.query.page) {
-    //     objectPagination.currentPage = parseInt(req.query.page);
-    // }
-    
-    // objectPagination.skip = (objectPagination.currentPage-1) * objectPagination.limitItems;
-
-    
-    // const countProducts = await Product.countDocuments(find);
-    // const totalPage = Math.ceil(countProducts/objectPagination.limitItems); 
-    // objectPagination.totalPage = totalPage;
-    // End Pagination
-
     const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
     res.render("admin/pages/product/index",
         {
@@ -51,3 +38,16 @@ module.exports.index = async (req,res)=>{
         }
     )
 }
+
+
+// [GET] /admin/products/change-status/:status/:id 
+module.exports.changeStatus = async (req, res) => { 
+    // console.log(req.params)
+    const status = req.params.status; 
+    const id = req.params.id;
+
+    await Product.updateOne({_id:id},{status:status})
+    // Quay lại trang hiện tại
+    res.redirect("back")
+}
+// Muốn đổi lại phương thức PATCH cài npm i method-override

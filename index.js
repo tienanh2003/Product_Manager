@@ -1,5 +1,6 @@
 const express= require("express")
 const mongoose=require("mongoose")
+var methodOverride = require("method-override")
 // Cài dotevn npm i dotenv
 require("dotenv").config()
 
@@ -11,6 +12,8 @@ const database=require("./config/database")
 
 const app=express()
 const port=process.env.PORT
+
+app.use(methodOverride("_method"))
 
 app.set("views","./views")
 app.set("view engine","pug")
